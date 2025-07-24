@@ -46,6 +46,7 @@
 - **Dynamic FPS display**.
 - **Optimized buffer output** for smooth animation.
 - **Minimal dependencies** (just GCC and Windows).
+- **Realtime zoom in and out** (Change resolution on fly).
 - **Costume Shader, Textures, Animations**.
 
 ---
