@@ -1,0 +1,7 @@
+#ifndef EDGE_ANIMATION_H
+#define EDGE_ANIMATION_H
+
+
+
+
+#endif // EDGE_ANIMATION_H

@@ -6,6 +6,17 @@ typedef struct {
     float x, y, z;
 } vertex;
 
+// Face structure for triangles and quads with texture support
+typedef struct {
+    vertex vertices[4]; // Up to 4 vertices (3 for triangle, 4 for quad)
+    int vertex_count;   // 3 for triangle, 4 for quad
+    int *texture;       // Pointer to texture array
+    int texture_width;  // Width of texture
+    int texture_height; // Height of texture
+    int color;          // Base color if no texture
+    char ascii;         // ASCII character for face
+} face;
+
 // Edge structure for drawing lines between vertices
 typedef struct {
     vertex start, end;
