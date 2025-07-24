@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "test.h": "c",
+        "stdio.h": "c",
+        "windows.h": "c",
+        "shader.h": "c",
+        "input.h": "c",
+        "time.h": "c",
+        "stdlib.h": "c",
+        "camera.h": "c",
+        "math.h": "c",
+        "rasterizer.h": "c"
+    }
+}
