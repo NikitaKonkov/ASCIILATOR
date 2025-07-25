@@ -2,7 +2,12 @@
 #include "stdio.h"
 #include "render/RENDER.h"
 
+// Development of a simple 3D engine inside a terminal
+// This engine uses ANSI escape codes to render 3D objects in a terminal window.
+// The engine supports basic 3D rendering, including face creation and texture mapping.
 
+// Main engine loop
+// This loop will run indefinitely until the user presses the Escape key.
 int main(int argc, char const *argv[])
 {
     DWORD lastTime = GetTickCount();
