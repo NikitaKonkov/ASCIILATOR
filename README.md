@@ -188,15 +188,33 @@ ASCIILATOR/
 ├── bin/                // Compiled binaries and executables (NOT USED)
 ├── engine/             // Core engine source code
 │   ├── camera/         // Camera system for 3D navigation
+│   │   ├── CAMERA.c
+│   │   └── CAMERA.h
 │   ├── input/          // Input handling (keyboard/mouse)
+│   │   ├── INPUT.c
+│   │   └── INPUT.h
 │   ├── rasterizer/     // Rasterization and rendering logic
+│   │   ├── RASTERIZER.c
+│   │   └── RASTERIZER.h
 │   ├── render/         // Frame buffer and output system
+│   │   ├── DOT_ANIMATION.h
+│   │   ├── EDGE_ANIMATION.h
+│   │   ├── EDGE_DRAWER.h
+│   │   ├── FACE_DRAWER.h
+│   │   ├── FACE_TEXTURE.h
+│   │   ├── RENDER.c
+│   │   └── RENDER.h
 │   ├── shader/         // ASCII and color shader logic
+│   │   ├── SHADER.c
+│   │   └── SHADER.h
 │   └── ENGINE.c        // Main engine entry point
-├── resource/
+├── resource/           // Resources like textures and animations
+│   ├── plane.png
+│   └── render.gif
 ├── install.bat         // Build script
 ├── engine.exe          // Compiled executable
-├── README.md            // Project documentation
+├── LICENSE             // MIT license
+├── README.md           // Project documentation
 ```
 
 ---
@@ -206,7 +224,7 @@ ASCIILATOR/
 
 Here is an example of the engine rendering a grid of dots with depth-based ASCII and color shading:
 
-![Engine Rendering Example](./resource/100x100plane.png)
+![Engine Rendering Example](./resource/plane.png)
 
 ---
 
@@ -225,7 +243,7 @@ This dynamic shading system enhances the 3D effect and makes the visuals more en
 
 Below is a showcase of the engine's rendering capabilities:
 
-![Render Showcase](./resource/render_showcase.gif)
+![Render Showcase](./resource/render.gif)
 
 ---
 
