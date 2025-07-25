@@ -136,6 +136,39 @@ face faces[] = { ... };
 // Call the unified draw function
 draw_unified(edges, edge_count, dots, dot_count, faces, face_count);
 ```
+## 🔴 Face Rotation and Depth Shaders
+
+The engine now supports advanced shading for faces based on their depth and rotation relative to the camera. This enhances the 3D effect and provides more dynamic visuals.
+
+### Depth Shader for Faces
+- **ASCII Characters**: Characters change based on the distance of the face from the camera.
+- **Color Shading**: Colors are selected dynamically based on depth, using ANSI color codes.
+
+### Rotation Shader for Faces
+- **Dynamic Characters**: Characters change based on the angle between the face's normal and the camera's view direction.
+- **Enhanced Realism**: Provides a sense of orientation and depth for each face.
+
+### Example Usage
+```c
+// Create a triangle face
+vertex vertices[3] = {
+    {0.0f, 0.0f, 0.0f},
+    {-50.0f, 0.0f, 0.0f},
+    {0.0f, 50.0f, 0.0f}
+};
+face shaded_face = create_face_with_shader(vertices, 3, test_texture, 8, 8);
+
+// Create a quad face
+vertex central_vertices[4] = {
+    {-5.0f, -5.0f, 0.0f},
+    {5.0f, -5.0f, 0.0f},
+    {5.0f, 5.0f, 0.0f},
+    {-5.0f, 5.0f, 0.0f}
+};
+faces[0] = create_face_with_shader(central_vertices, 4, test_texture, 8, 8);
+```
+
+These shaders are implemented in `SHADER.c` and can be customized further to suit your needs.
 
 ---
 
@@ -203,7 +236,9 @@ Below is a showcase of the engine's rendering capabilities:
 
 ## 📝 License
 
-MIT License (see LICENSE file).
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
 ---
-_"ASCII-TREX-CONSOLE-ENGINE: Bringing retro vector graphics to your terminal!"_
+
+_"ASCIILATOR: ASCII Console 3D Render Engine!"_
+---
