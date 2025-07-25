@@ -47,4 +47,14 @@ dot dot_shader(vertex v);
 edge edge_shader(vertex start, vertex end);
 edge create_edge_with_shader(vertex start, vertex end);
 
+// Face shader functions
+float face_distance_calc(face f);
+char face_ascii_depth(face f);
+int face_color_depth(face f);
+void calculate_face_normal(face f, float *nx, float *ny, float *nz);
+char face_rotation_shader(face f);
+face face_shader(face f);
+face face_rotation_shader_face(face f);
+face create_face_with_shader(vertex *vertices, int vertex_count, int *texture, int texture_width, int texture_height);
+
 #endif // SHADER_H

@@ -227,8 +227,8 @@ void geometry_draw() {
 
 
     // Create face examples
-    face test_faces[2];
-    test_face_drawer(test_faces);
+    face test_faces[3];
+    draw_ship(test_faces);
 
     // Calculate number of edges and dots
     int num_edges = sizeof(test_edges) / sizeof(test_edges[0]);
