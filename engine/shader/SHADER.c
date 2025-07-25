@@ -364,18 +364,36 @@ char face_rotation_shader(face f) {
     float angle_degrees = angle * 180.0f / 3.14159265358979323846f;
     
     // Choose character based on viewing angle
-    if (angle_degrees < 15.0f) {
-        return '#';     // Face-on view - solid block
+    if (angle_degrees < 5.0f) {
+        return '@';     // Face-on view - solid block
+    } else if (angle_degrees < 10.0f) {
+        return '#';     // Slight angle - dense pattern
+    } else if (angle_degrees < 15.0f) {
+        return '&';     // Medium angle - medium dense
+    } else if (angle_degrees < 20.0f) {
+        return '%';     // Medium - pattern
+    } else if (angle_degrees < 25.0f) {
+        return '$';     // Medium far - letters
     } else if (angle_degrees < 30.0f) {
-        return '@';     // Slight angle - dense pattern
+        return 'M';     // Far - letters
+    } else if (angle_degrees < 35.0f) {
+        return 'N';     // Very far - symbols
+    } else if (angle_degrees < 40.0f) {
+        return '*';     // Very far - light symbols
     } else if (angle_degrees < 45.0f) {
-        return '&';     // Medium angle - medium pattern
+        return '+';     // Very far - lines
+    } else if (angle_degrees < 50.0f) {
+        return '|';     // Very far - dashes
+    } else if (angle_degrees < 55.0f) {
+        return '-';     // Far away - punctuation
     } else if (angle_degrees < 60.0f) {
-        return '%';     // Sharp angle - sparse pattern
-    } else if (angle_degrees < 75.0f) {
-        return '*';     // Very sharp angle - stars
+        return ';';     // Far away - dots
+    } else if (angle_degrees < 65.0f) {
+        return ':';     // Very far - tilde
+    } else if (angle_degrees < 70.0f) {
+        return '~';     // Very far - underscore
     } else {
-        return '.';     // Edge-on view - dots
+        return '_';     // Extremely far - dot
     }
 }
 

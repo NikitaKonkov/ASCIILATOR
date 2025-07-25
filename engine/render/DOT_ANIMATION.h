@@ -13,8 +13,8 @@ void dot_wave_grid(dot *d){
 
     for (int i = 0; i < 256; i++) {
         for (int j = 0; j < 256; j++) {
-            float x = i*2; // X-coordinate
-            float z = j*2; // Z-coordinate
+            float x = 256 - i*2; // X-coordinate
+            float z = 256 - j*2; // Z-coordinate
             
             // Create multiple overlapping waves for complex patterns
             float wave1 = sin((x * wave_frequency) + (time * wave_speed)) * wave_amplitude;
