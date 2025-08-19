@@ -13,7 +13,7 @@
 
 ## ⚪ Quick Start
 
-1. **Install GCC** (MinGW or MSYS2 recommended, but any GCC for Windows works).
+1. **Install GCC** (UCRT64 MSYS2 recommended).
 2. Open the UCRT64 MSYS2 terminal, navigate to project `root` directory.
 3. Run:
    ```
