@@ -15,7 +15,7 @@ float aspect_ratio_height = 2.0f; // Height scaling factor (2.0 = compensate for
 
 // Culling distance for 3D objects
 const float culling_distance = .5f; // Distance behind camera to start culling
-const float view_distance = 1000.0f; // Maximum view distance - objects beyond this distance are culled
+const float view_distance = 100000.0f; // Maximum view distance - objects beyond this distance are culled
 
 // Diagonal vector for camera movement (forward/backward)
 float diagonal_x, diagonal_y, diagonal_z;

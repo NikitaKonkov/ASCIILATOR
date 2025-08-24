@@ -6,29 +6,29 @@
 void dot_wave_grid(dot *d){
     // Wave parameters
     static float time = 0.0f;
-    time += 0.025f; // Animation speed
-    float wave_amplitude = 1.0f; // Height of the waves
-    float wave_frequency = 0.1f; // Frequency of the waves
-    float wave_speed = 2.0f; // Speed of wave propagation
+    time += 0.02f; // Slower animation speed to reduce vibration
+    float wave_amplitude = 8.0f; // Larger wave height
+    float wave_frequency = 0.005f; // Much lower frequency for smoother large waves
+    float wave_speed = 1.5f; // Slower wave propagation
 
     for (int i = 0; i < 256; i++) {
         for (int j = 0; j < 256; j++) {
-            float x = 256 - i*2; // X-coordinate
-            float z = 256 - j*2; // Z-coordinate
+            float x = 2560 - i*10; // X-coordinate (10x bigger grid, denser spacing)
+            float z = 2560 - j*10; // Z-coordinate (10x bigger grid, denser spacing)
             
             // Create multiple overlapping waves for complex patterns
             float wave1 = sin((x * wave_frequency) + (time * wave_speed)) * wave_amplitude;
-            float wave2 = sin((z * wave_frequency) + (time * wave_speed * 0.7f)) * wave_amplitude * 0.6f;
-            float wave3 = sin(((x + z) * wave_frequency * 0.5f) + (time * wave_speed * 1.3f)) * wave_amplitude * 0.4f;
+            float wave2 = sin((z * wave_frequency) + (time * wave_speed * 0.8f)) * wave_amplitude * 0.7f;
+            float wave3 = sin(((x + z) * wave_frequency * 0.3f) + (time * wave_speed * 1.1f)) * wave_amplitude * 0.5f;
             
             // Combine waves for more complex patterns
             float y = wave1 + wave2 + wave3;
             
-            // Add circular wave from center
-            float center_x = 4.0f;
-            float center_z = 4.0f;
+            // Add circular wave from center (adjusted for larger grid)
+            float center_x = 1280.0f; // Center of the larger grid
+            float center_z = 1280.0f; // Center of the larger grid
             float distance_from_center = sqrt((x - center_x) * (x - center_x) + (z - center_z) * (z - center_z));
-            float circular_wave = sin((distance_from_center * wave_frequency * 128.0f) - (time * wave_speed * 128.0f)) * wave_amplitude * 0.3f;
+            float circular_wave = sin((distance_from_center * wave_frequency * 2.0f) - (time * wave_speed * 2.0f)) * wave_amplitude * 0.4f;
             
             y += circular_wave;
             

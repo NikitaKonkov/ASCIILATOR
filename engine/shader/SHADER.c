@@ -90,25 +90,47 @@ char dot_ascii_depth(vertex v) {
     distance *= 2; // Scale distance for more color variation
 
     // Map distance to discrete intervals
-    int range = (int)(distance / 10);
+    int range = (int)(distance / 20);
 
-    // Use a switch statement for faster lookup
-    switch (range) {
-        case 0: return '#';
-        case 1: return '@';
-        case 2: return '&';
-        case 3: return '%';
-        case 4: return 'M';
-        case 5: return 'N';
-        case 6: return '*';
-        case 7: return '+';
-        case 8: return '|';
-        case 9: return '-';
-        case 10: return ';';
-        case 11: return ':';
-        case 12: return '~';
-        default: return '.'; // Far
-    }
+    // ASCII depth lookup table - much faster than if-else chain
+    static const char depth_chars[] = {
+        // Dense blocks (0-10)
+        '#', '#', '#', '@', '@', '&', '&', '%', '%', '$', '$',
+        // Dense letters (11-60)
+        'M', 'M', 'W', 'W', 'B', 'B', 'H', 'H', 'R', 'R',
+        'K', 'K', 'Q', 'Q', 'U', 'U', 'A', 'A', 'N', 'N',
+        'G', 'G', 'D', 'D', 'O', 'O', 'P', 'P', 'S', 'S',
+        'E', 'E', 'F', 'F', 'X', 'X', 'Y', 'Y', 'Z', 'Z',
+        'V', 'V', 'T', 'T', 'C', 'C', 'I', 'I', 'L', 'L',
+        'J', 'J',
+        // Lowercase letters (62-114)
+        'a', 'a', 'b', 'b', 'c', 'c', 'd', 'd', 'e', 'e',
+        'f', 'f', 'g', 'g', 'h', 'h', 'i', 'i', 'j', 'j',
+        'k', 'k', 'l', 'l', 'm', 'm', 'n', 'n', 'o', 'o',
+        'p', 'p', 'q', 'q', 'r', 'r', 's', 's', 't', 't',
+        'u', 'u', 'v', 'v', 'w', 'w', 'x', 'x', 'y', 'y',
+        'z', 'z',
+        // Numbers (116-134)
+        '8', '8', '9', '9', '6', '6', '0', '0', '4', '4',
+        '3', '3', '5', '5', '2', '2', '7', '7', '1', '1',
+        // Dense symbols (136-140)
+        '*', '*', '=', '=', '+', '+',
+        // Line symbols (142-154)
+        '|', '|', '\\', '\\', '/', '/', '-', '-', '_', '_',
+        '^', '^', '~', '~',
+        // Punctuation (156-180)
+        '!', '!', '?', '?', '<', '<', '>', '>', '{', '{',
+        '}', '}', '[', '[', ']', ']', '(', '(', ')', ')',
+        ';', ';', ':', ':', ',', ',',
+        // Light symbols (182-188)
+        '`', '`', '\'', '\'', '"', '"', '.', '.'
+    };
+    
+    // Calculate lookup table size
+    static const int table_size = sizeof(depth_chars) / sizeof(depth_chars[0]);
+    
+    // Return character from lookup table or default for out-of-range
+    return (range < table_size) ? depth_chars[range] : '.';
 }
 
 int dot_color_depth(vertex v) {
@@ -217,19 +239,19 @@ edge create_edge_with_shader(vertex start, vertex end) {
 // Calculate distance from camera to face center for depth calculation
 float face_distance_calc(face f) {
     // Calculate face center
-    float center_x = 0.0f, center_y = 0.0f, center_z = 0.0f;
+    float mouse_cursour_x = 0.0f, mouse_cursour_y = 0.0f, center_z = 0.0f;
     for (int i = 0; i < f.vertex_count; i++) {
-        center_x += f.vertices[i].x;
-        center_y += f.vertices[i].y;
+        mouse_cursour_x += f.vertices[i].x;
+        mouse_cursour_y += f.vertices[i].y;
         center_z += f.vertices[i].z;
     }
-    center_x /= f.vertex_count;
-    center_y /= f.vertex_count;
+    mouse_cursour_x /= f.vertex_count;
+    mouse_cursour_y /= f.vertex_count;
     center_z /= f.vertex_count;
     
     // Calculate distance from camera to face center
-    float dx = center_x - camera.x;
-    float dy = center_y - camera.y;
+    float dx = mouse_cursour_x - camera.x;
+    float dy = mouse_cursour_y - camera.y;
     float dz = center_z - camera.z;
     
     return sqrt(dx * dx + dy * dy + dz * dz);
@@ -333,19 +355,19 @@ char face_rotation_shader(face f) {
     calculate_face_normal(f, &nx, &ny, &nz);
     
     // Calculate face center
-    float center_x = 0.0f, center_y = 0.0f, center_z = 0.0f;
+    float mouse_cursour_x = 0.0f, mouse_cursour_y = 0.0f, center_z = 0.0f;
     for (int i = 0; i < f.vertex_count; i++) {
-        center_x += f.vertices[i].x;
-        center_y += f.vertices[i].y;
+        mouse_cursour_x += f.vertices[i].x;
+        mouse_cursour_y += f.vertices[i].y;
         center_z += f.vertices[i].z;
     }
-    center_x /= f.vertex_count;
-    center_y /= f.vertex_count;
+    mouse_cursour_x /= f.vertex_count;
+    mouse_cursour_y /= f.vertex_count;
     center_z /= f.vertex_count;
     
     // Calculate view direction from camera to face center
-    float view_dx = center_x - camera.x;
-    float view_dy = center_y - camera.y;
+    float view_dx = mouse_cursour_x - camera.x;
+    float view_dy = mouse_cursour_y - camera.y;
     float view_dz = center_z - camera.z;
     
     // Normalize view direction

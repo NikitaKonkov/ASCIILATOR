@@ -8,8 +8,8 @@ static int mouse_last_y = 0;
 static int mouse_initialized = 0;
 
 // Lock the mouse to the center of the screen
-const int center_x = 200; // Replace with your desired center X coordinate
-const int center_y = 200;  // Replace with your desired center Y coordinate
+const int mouse_cursour_x = 200; // Replace with your desired center X coordinate
+const int mouse_cursour_y = 200;  // Replace with your desired center Y coordinate
 
 // Mouse sensitivity for camera rotation
 const float mouse_sensitivity = 0.005f;
@@ -22,9 +22,9 @@ void mouse_input() {
 
     if (!mouse_initialized) {
         // Initialize the mouse position
-        mouse_last_x = center_x;
-        mouse_last_y = center_y;
-        SetCursorPos(center_x, center_y);
+        mouse_last_x = mouse_cursour_x;
+        mouse_last_y = mouse_cursour_y;
+        SetCursorPos(mouse_cursour_x, mouse_cursour_y);
         mouse_initialized = 1;
     }
 
@@ -33,7 +33,7 @@ void mouse_input() {
     int mouse_delta_y = mouse_pos.y - mouse_last_y;
 
     // Update camera rotation based on mouse movement
-    if (mouse_delta_x != 0 || mouse_delta_y != 0) {
+    if (mouse_delta_x || mouse_delta_y) {
         camera.yaw -= mouse_delta_x * mouse_sensitivity;   // Horizontal mouse movement -> yaw
         camera.pitch -= mouse_delta_y * mouse_sensitivity; // Vertical mouse movement -> pitch
     }
@@ -44,7 +44,7 @@ void mouse_input() {
     if (camera.pitch < -MAX_PITCH) camera.pitch = -MAX_PITCH;
 
     // Reset the mouse position to the center
-    SetCursorPos(center_x, center_y);
+    SetCursorPos(mouse_cursour_x, mouse_cursour_y);
 }
 
 

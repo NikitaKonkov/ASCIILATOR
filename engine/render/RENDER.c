@@ -87,21 +87,13 @@ void render_frame_buffer() {
             
             if (pixel_changed) {
                 if (frame_buffer_pos < sizeof(frame_buffer) - 50) {
-                    if (current.valid) {
-                        // Draw new pixel
-                        frame_buffer_pos += snprintf(&frame_buffer[frame_buffer_pos], 
-                            sizeof(frame_buffer) - frame_buffer_pos,
-                            "\x1b[%d;%dH\x1b[%dm%c", 
-                            y + 1, x + 1, 
-                            current.color, 
-                            current.ascii);
-                    } else {
-                        // Clear pixel (was valid before, now invalid)
-                        frame_buffer_pos += snprintf(&frame_buffer[frame_buffer_pos], 
-                            sizeof(frame_buffer) - frame_buffer_pos,
-                            "\x1b[%d;%dH ", 
-                            y + 1, x + 1);
-                    }
+                    // Draw new pixel or clear pixel using ternary operator inside snprintf
+                    frame_buffer_pos += snprintf(&frame_buffer[frame_buffer_pos], 
+                        sizeof(frame_buffer) - frame_buffer_pos,
+                        current.valid ? "\x1b[%d;%dH\x1b[%dm%c" : "\x1b[%d;%dH ", 
+                        y + 1, x + 1, 
+                        current.valid ? current.color : 0, 
+                        current.valid ? current.ascii : ' ');
                 }
             }
         }
