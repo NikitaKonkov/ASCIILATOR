@@ -198,44 +198,46 @@ void output_buffer() { // CPU based output
 
 // Test function to draw a complex shapes
 void geometry_draw() {
-    // Initialize rendering system on first call
-    
-    if (first_call) {
-        init_rendering_system();
-    }
 
+    // Initialize rendering system on first call
+    if (first_call) init_rendering_system();
 
     // Cube edges
     edge test_edges[12];
-    rgb_edge_cube(test_edges); // Create a set of edges for a cube with RGB colors
-
 
     // Create separate dot arrays for both wave grid and wave cube
     dot test_dots_grid[256 * 256];
     dot test_dots_cube[64 * 64]; // Smaller array for cube since it only needs dots for 6 faces
+
+    // Create face examples with pulsating heart-like animation
+    face test_faces[6];
+    face pyramid_faces[5]; // 5 faces for pyramid (1 square base + 4 triangular sides)
+
+    // Calculate pulsating scale based on time (heart-like beat)
+    float time = (float)clock() / CLOCKS_PER_SEC;
+    float heart_beat = 0.7f + 0.4f * fabs(sin(time * 3.0f)) + 0.2f * fabs(sin(time * 6.0f));
     
+    // Calculate number of edges and dots
+    int num_edges = sizeof(test_edges) / sizeof(test_edges[0]);
+    int num_dots_grid = sizeof(test_dots_grid) / sizeof(test_dots_grid[0]);
+    int num_dots_cube = sizeof(test_dots_cube) / sizeof(test_dots_cube[0]);
+    int num_faces = sizeof(test_faces) / sizeof(test_faces[0]);
+    int num_pyramid_faces = sizeof(pyramid_faces) / sizeof(pyramid_faces[0]);
+
+    // Fill edge array with cube edges
+    rgb_edge_cube(test_edges); // Create a set of edges for a cube with RGB colors
+
     // Fill with wave grid animation
     dot_wave_grid(test_dots_grid); // Dots with wave grid animation
 
     // Fill with wave cube animation  
     dot_wave_cube(test_dots_cube); // Dots forming a wave cube
 
-
-    // Create face examples with pulsating heart-like animation
-    face test_faces[6];
-    
-    // Calculate pulsating scale based on time (heart-like beat)
-    float time = (float)clock() / CLOCKS_PER_SEC;
-    float heart_beat = 0.7f + 0.4f * fabs(sin(time * 3.0f)) + 0.2f * fabs(sin(time * 6.0f));
-    
     // Position the cube at coordinates (x=0, y=0, z=20) - you can hardcode different values here
-    draw_smily_cube(test_faces, heart_beat, 0.0f, -20.0f, 0.0f);
-
-    // Calculate number of edges and dots
-    int num_edges = sizeof(test_edges) / sizeof(test_edges[0]);
-    int num_dots_grid = sizeof(test_dots_grid) / sizeof(test_dots_grid[0]);
-    int num_dots_cube = sizeof(test_dots_cube) / sizeof(test_dots_cube[0]);
-    int num_faces = sizeof(test_faces) / sizeof(test_faces[0]);
+    draw_hearth_cube(test_faces, heart_beat, 0.0f, -20.0f, 0.0f);
+    
+    // Position the pyramid next to the cube with constant scale (no heartbeat)
+    draw_pyramid(pyramid_faces, 1.0f, 20.0f, -20.0f, 0.0f);
 
     // Initialize frame buffer for this frame
     init_frame_buffer();
@@ -243,6 +245,11 @@ void geometry_draw() {
     // Draw all faces first (back to front)
     for (int i = 0; i < num_faces; i++) {
         draw_face(test_faces[i]);
+    }
+    
+    // Draw pyramid faces
+    for (int i = 0; i < num_pyramid_faces; i++) {
+        draw_face(pyramid_faces[i]);
     }
     
     // Draw all edges
