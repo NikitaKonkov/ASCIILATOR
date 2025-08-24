@@ -29,24 +29,12 @@ char edge_ascii_depth(vertex start, vertex end) {
     // Map distance to discrete intervals
     int range = (int)(distance / 10);
 
-    // Use a switch statement for faster lookup
-    switch (range) {
-        case 0: return '#';
-        case 1: return '@';
-        case 2: return '&';
-        case 3: return '%';
-        case 4: return 'M';
-        case 5: return 'N';
-        case 6: return '*';
-        case 7: return '+';
-        case 8: return '|';
-        case 9: return '-';
-        case 10: return ';';
-        case 11: return ':';
-        case 12: return '~';
-        case 13: return '_';
-        default: return '.'; // Far
-    }
+    // Lookup table for ASCII depth
+    static const char depth_chars[] = {
+        '#', '@', '&', '%', 'M', 'N', '*', '+', '|', '-', ';', ':', '~', '_'
+    };
+    static const int table_size = sizeof(depth_chars) / sizeof(depth_chars[0]);
+    return (range >= 0 && range < table_size) ? depth_chars[range] : '.';
 }
 
 int edge_color_depth(vertex start, vertex end) {
@@ -56,24 +44,12 @@ int edge_color_depth(vertex start, vertex end) {
     // Map distance to discrete intervals
     int range = (int)(distance / 10);
 
-    // Use a switch statement for faster lookup
-    switch (range) {
-        case 0: return 31;
-        case 1: return 32;
-        case 2: return 33;
-        case 3: return 34;
-        case 4: return 35;
-        case 5: return 36;
-        case 6: return 37;
-        case 7: return 91;
-        case 8: return 92;
-        case 9: return 93;
-        case 10: return 94;
-        case 11: return 95;
-        case 12: return 96;
-        case 13: return 97;
-        default: return 90; // Far
-    }
+    // Lookup table for color depth
+    static const int color_codes[] = {
+        31, 32, 33, 34, 35, 36, 37, 91, 92, 93, 94, 95, 96, 97
+    };
+    static const int color_table_size = sizeof(color_codes) / sizeof(color_codes[0]);
+    return (range >= 0 && range < color_table_size) ? color_codes[range] : 90;
 }
 edge edge_shader(vertex v1, vertex v2) {
     // Create an edge with depth and color based on the vertices
@@ -140,24 +116,12 @@ int dot_color_depth(vertex v) {
     // Map distance to discrete intervals
     int range = (int)(distance / 10);
 
-    // Use a switch statement for faster lookup
-    switch (range) {
-        case 0: return 31;
-        case 1: return 32;
-        case 2: return 33;
-        case 3: return 34;
-        case 4: return 35;
-        case 5: return 36;
-        case 6: return 37;
-        case 7: return 91;
-        case 8: return 92;
-        case 9: return 93;
-        case 10: return 94;
-        case 11: return 95;
-        case 12: return 96;
-        case 13: return 97;
-        default: return 90; // Far
-    }
+    // Lookup table for color depth
+    static const int color_codes[] = {
+        31, 32, 33, 34, 35, 36, 37, 91, 92, 93, 94, 95, 96, 97
+    };
+    static const int color_table_size = sizeof(color_codes) / sizeof(color_codes[0]);
+    return (range >= 0 && range < color_table_size) ? color_codes[range] : 90;
 }
 
 dot dot_shader(vertex v) {
@@ -215,15 +179,15 @@ char edge_rotation_shader(angle e) {
     float angle_degrees = angle * 180.0f / 3.14159265358979323846f;
     int angle_int = (int)(angle_degrees * 4) % 360; // Multiply by 4 for more sensitivity
     
-    // Choose character based on angle ranges
-    if (angle_int < 45) return '=';         // Nearly parallel
-    else if (angle_int < 90) return '\\';   // Slight angle
-    else if (angle_int < 135) return '|';   // Medium angle
-    else if (angle_int < 180) return '/';   // Sharp angle
-    else if (angle_int < 225) return '-';   // Perpendicular
-    else if (angle_int < 270) return '\\';  // Sharp angle (other side)
-    else if (angle_int < 315) return '|';   // Medium angle (other side)
-    else return '/';                        // Slight angle (other side)
+    // Lookup table for angle-based ASCII characters
+    static const char angle_chars[] = {
+        '=', '\\', '|', '/', '-', '\\', '|', '/'
+    };
+    // Each range is 45 degrees, so index = angle_int / 45
+    int idx = angle_int / 45;
+    if (idx < 0) idx = 0;
+    if (idx > 7) idx = 7;
+    return angle_chars[idx];
 }
 
 
@@ -265,24 +229,12 @@ char face_ascii_depth(face f) {
     // Map distance to discrete intervals
     int range = (int)(distance / 10);
     
-    // Use a switch statement for faster lookup
-    switch (range) {
-        case 0: return '#';  // Very close - solid block
-        case 1: return '@';  // Close - dense pattern
-        case 2: return '&';  // Medium close - medium dense
-        case 3: return '%';  // Medium - pattern
-        case 4: return 'M';  // Medium far - letters
-        case 5: return 'N';  // Far - letters
-        case 6: return '*';  // Far - symbols
-        case 7: return '+';  // Very far - light symbols
-        case 8: return '|';  // Very far - lines
-        case 9: return '-';  // Very far - dashes
-        case 10: return ';'; // Far away - punctuation
-        case 11: return ':'; // Far away - dots
-        case 12: return '~'; // Very far - tilde
-        case 13: return '_'; // Very far - underscore
-        default: return '.'; // Extremely far - dot
-    }
+    // Lookup table for ASCII depth for faces
+    static const char face_depth_chars[] = {
+        '#', '@', '&', '%', 'M', 'N', '*', '+', '|', '-', ';', ':', '~', '_'
+    };
+    static const int face_table_size = sizeof(face_depth_chars) / sizeof(face_depth_chars[0]);
+    return (range >= 0 && range < face_table_size) ? face_depth_chars[range] : '.';
 }
 
 // Depth-based color selection for faces
@@ -293,24 +245,12 @@ int face_color_depth(face f) {
     // Map distance to discrete intervals
     int range = (int)(distance / 10);
     
-    // Use a switch statement for faster lookup
-    switch (range) {
-        case 0: return 31;  // Red - very close
-        case 1: return 32;  // Green - close
-        case 2: return 33;  // Yellow - medium close
-        case 3: return 34;  // Blue - medium
-        case 4: return 35;  // Magenta - medium far
-        case 5: return 36;  // Cyan - far
-        case 6: return 37;  // White - far
-        case 7: return 91;  // Bright red - very far
-        case 8: return 92;  // Bright green - very far
-        case 9: return 93;  // Bright yellow - very far
-        case 10: return 94; // Bright blue - very far
-        case 11: return 95; // Bright magenta - very far
-        case 12: return 96; // Bright cyan - very far
-        case 13: return 97; // Bright white - very far
-        default: return 90; // Dark gray - extremely far
-    }
+    // Lookup table for color depth for faces
+    static const int face_color_codes[] = {
+        31, 32, 33, 34, 35, 36, 37, 91, 92, 93, 94, 95, 96, 97
+    };
+    static const int face_color_table_size = sizeof(face_color_codes) / sizeof(face_color_codes[0]);
+    return (range >= 0 && range < face_color_table_size) ? face_color_codes[range] : 90;
 }
 
 // Calculate face normal vector
@@ -385,38 +325,14 @@ char face_rotation_shader(face f) {
     float angle = acos(fabs(dot_product)); // Use absolute value for angle
     float angle_degrees = angle * 180.0f / 3.14159265358979323846f;
     
-    // Choose character based on viewing angle
-    if (angle_degrees < 5.0f) {
-        return '@';     // Face-on view - solid block
-    } else if (angle_degrees < 10.0f) {
-        return '#';     // Slight angle - dense pattern
-    } else if (angle_degrees < 15.0f) {
-        return '&';     // Medium angle - medium dense
-    } else if (angle_degrees < 20.0f) {
-        return '%';     // Medium - pattern
-    } else if (angle_degrees < 25.0f) {
-        return '$';     // Medium far - letters
-    } else if (angle_degrees < 30.0f) {
-        return 'M';     // Far - letters
-    } else if (angle_degrees < 35.0f) {
-        return 'N';     // Very far - symbols
-    } else if (angle_degrees < 40.0f) {
-        return '*';     // Very far - light symbols
-    } else if (angle_degrees < 45.0f) {
-        return '+';     // Very far - lines
-    } else if (angle_degrees < 50.0f) {
-        return '|';     // Very far - dashes
-    } else if (angle_degrees < 55.0f) {
-        return '-';     // Far away - punctuation
-    } else if (angle_degrees < 60.0f) {
-        return ';';     // Far away - dots
-    } else if (angle_degrees < 65.0f) {
-        return ':';     // Very far - tilde
-    } else if (angle_degrees < 70.0f) {
-        return '~';     // Very far - underscore
-    } else {
-        return '_';     // Extremely far - dot
-    }
+    // Lookup table for angle-based ASCII characters for faces
+    static const char face_angle_chars[] = {
+        '@', '#', '&', '%', '$', 'M', 'N', '*', '+', '|', '-', ';', ':', '~', '_'
+    };
+    // Each range is 5 degrees, so index = angle_degrees / 5
+    int idx = (int)(angle_degrees / 5.0f);
+    int table_size = sizeof(face_angle_chars) / sizeof(face_angle_chars[0]);
+    return (idx >= 0 && idx < table_size) ? face_angle_chars[idx] : '_';
 }
 
 // Combined face shader using both depth and rotation
