@@ -2,15 +2,23 @@
 #define TEXTURE_H
 
 
-// Create a simple texture for faces (smiley face)
-int smily_texture[] = {
-    33, 33, 33, 33, 33, 33, 33, 33,  // Yellow border (top)
-    33, 35, 37, 37, 37, 37, 32, 33,  // White face with yellow border
-    33, 37, 31, 37, 37, 31, 37, 33,  // Eyes (red dots)
-    33, 37, 37, 37, 37, 37, 37, 33,  // White face
-    33, 37, 37, 37, 37, 37, 37, 33,  // White face
-    33, 37, 31, 37, 37, 31, 37, 33,  // Smile corners (red)
-    33, 34, 37, 31, 31, 37, 31, 33,  // Smile mouth (red)
-    33, 33, 33, 33, 33, 33, 33, 33   // Yellow border (bottom)
+// Create a simple texture for faces (heart shape)
+int heart_texture[] = {
+    37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37,  // White background (top)
+    37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37,  // White background
+    37, 37, 31, 31, 31, 37, 37, 37, 37, 37, 37, 31, 31, 31, 37, 37,  // Heart top bumps (red)
+    37, 31, 31, 31, 31, 31, 37, 37, 37, 37, 31, 31, 31, 31, 31, 37,  // Heart top bumps wider
+    31, 31, 31, 31, 31, 31, 31, 37, 37, 31, 31, 31, 31, 31, 31, 31,  // Heart top connecting
+    31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31,  // Full red heart top
+    31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31,  // Full red heart
+    31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31,  // Full red heart
+    37, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 37,  // Heart sides tapering
+    37, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 37,  // Heart sides tapering
+    37, 37, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 37, 37,  // Heart narrowing
+    37, 37, 37, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 37, 37, 37,  // Heart narrowing more
+    37, 37, 37, 37, 31, 31, 31, 31, 31, 31, 31, 31, 37, 37, 37, 37,  // Heart bottom narrowing
+    37, 37, 37, 37, 37, 31, 31, 31, 31, 31, 31, 37, 37, 37, 37, 37,  // Heart bottom point
+    37, 37, 37, 37, 37, 37, 31, 31, 31, 31, 37, 37, 37, 37, 37, 37,  // Heart tip
+    37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37   // White background (bottom)
 };
 #endif // TEXTURE_H

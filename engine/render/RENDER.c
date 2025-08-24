@@ -15,6 +15,7 @@
 #include "windows.h"
 #include "stdio.h"
 #include <time.h>
+#include <math.h>
 #include "RENDER.h"
 #include "FACE_TEXTURE.h"
 #include "FACE_DRAWER.h"
@@ -26,7 +27,8 @@
 #include "../shader/SHADER.h"
 #include "../rasterizer/RASTERIZER.h"
 
-
+// Flag to indicate if this is the first call
+static int first_call = 1;
 
 // Saves current console size to avoid infinite scrolling
 unsigned int save_console_width = 0;
@@ -47,6 +49,8 @@ void init_rendering_system() {
             previous_screen_buffer[y][x].depth = 2560.0f;
         }
     }
+
+    first_call = 0;
 }
 
 // Initialize the new frame buffer system
@@ -58,12 +62,6 @@ void init_frame_buffer() {
     for (int y = 0; y < screen_height && y < 2560; y++) {
         for (int x = 0; x < screen_width && x < 2560; x++) {
             previous_screen_buffer[y][x] = screen_buffer[y][x];
-        }
-    }
-    
-    // Clear the current screen buffer
-    for (int y = 0; y < screen_height && y < 2560; y++) {
-        for (int x = 0; x < screen_width && x < 2560; x++) {
             screen_buffer[y][x].valid = 0;
             screen_buffer[y][x].depth = 2560.0f; // Far depth
         }
@@ -209,10 +207,9 @@ void output_buffer() { // CPU based output
 // Test function to draw a complex shapes
 void geometry_draw() {
     // Initialize rendering system on first call
-    static int first_call = 1;
+    
     if (first_call) {
         init_rendering_system();
-        first_call = 0;
     }
 
 
@@ -221,20 +218,56 @@ void geometry_draw() {
     rgb_edge_cube(test_edges); // Create a set of edges for a cube with RGB colors
 
 
-    // Create a set of test dots with wave algorithm
-    dot test_dots[256 * 256];
-    dot_wave_grid(test_dots); // Dots with wave animation
+    // Create separate dot arrays for both wave grid and wave cube
+    dot test_dots_grid[256 * 256];
+    dot test_dots_cube[64 * 64]; // Smaller array for cube since it only needs dots for 6 faces
+    
+    // Fill with wave grid animation
+    dot_wave_grid(test_dots_grid); // Dots with wave grid animation
+
+    // Fill with wave cube animation  
+    dot_wave_cube(test_dots_cube); // Dots forming a wave cube
 
 
-    // Create face examples
+    // Create face examples with pulsating heart-like animation
     face test_faces[6];
-    draw_abstract_model(test_faces);
+    
+    // Calculate pulsating scale based on time (heart-like beat)
+    float time = (float)clock() / CLOCKS_PER_SEC;
+    float heart_beat = 0.7f + 0.4f * fabs(sin(time * 3.0f)) + 0.2f * fabs(sin(time * 6.0f));
+    
+    // Position the cube at coordinates (x=0, y=0, z=20) - you can hardcode different values here
+    draw_smily_cube(test_faces, heart_beat, 0.0f, -20.0f, 0.0f);
 
     // Calculate number of edges and dots
     int num_edges = sizeof(test_edges) / sizeof(test_edges[0]);
-    int num_dots = sizeof(test_dots) / sizeof(test_dots[0]);
+    int num_dots_grid = sizeof(test_dots_grid) / sizeof(test_dots_grid[0]);
+    int num_dots_cube = sizeof(test_dots_cube) / sizeof(test_dots_cube[0]);
     int num_faces = sizeof(test_faces) / sizeof(test_faces[0]);
+
+    // Initialize frame buffer for this frame
+    init_frame_buffer();
     
-    // Use unified rendering with new frame buffer system for proper depth sorting
-    draw_unified(test_edges, num_edges, test_dots, num_dots, test_faces, num_faces);
+    // Draw all faces first (back to front)
+    for (int i = 0; i < num_faces; i++) {
+        draw_face(test_faces[i]);
+    }
+    
+    // Draw all edges
+    for (int i = 0; i < num_edges; i++) {
+        draw_edge(test_edges[i]);
+    }
+    
+    // Draw all grid dots
+    for (int i = 0; i < num_dots_grid; i++) {
+        draw_dot(test_dots_grid[i]);
+    }
+    
+    // Draw all cube dots
+    for (int i = 0; i < num_dots_cube; i++) {
+        draw_dot(test_dots_cube[i]);
+    }
+    
+    // Render the complete frame to screen
+    render_frame_buffer();
 }
