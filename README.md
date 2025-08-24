@@ -244,6 +244,7 @@ This dynamic shading system enhances the 3D effect and makes the visuals more en
 Below is a showcase of the engine's rendering capabilities:
 
 ![Render Showcase](./resource/render.gif)
+![Render Showcase](./resource/scaler.gif)
 
 ---
 
