@@ -233,11 +233,11 @@ void geometry_draw() {
     // Fill with wave cube animation  
     dot_wave_cube(test_dots_cube); // Dots forming a wave cube
 
-    // Position the cube at coordinates (x=0, y=0, z=20) - you can hardcode different values here
-    draw_hearth_cube(test_faces, heart_beat, 0.0f, -20.0f, 0.0f);
+    // Position shapes next to each other instead of overlapping
+    draw_hearth_cube(test_faces, heart_beat, -30.0f, -20.0f, 0.0f);  // Heart cube on the left
     
     // Position the pyramid next to the cube with constant scale (no heartbeat)
-    draw_pyramid(pyramid_faces, 1.0f, 20.0f, -20.0f, 0.0f);
+    draw_pyramid(pyramid_faces, 1.0f, 0.0f, -20.0f, 0.0f);  // Pyramid in the center
 
     // Initialize frame buffer for this frame
     init_frame_buffer();

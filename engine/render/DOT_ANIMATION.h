@@ -93,7 +93,7 @@ void dot_wave_cube(dot *d) {
                 else if (face_data[face][3] == 1) y += wave;
                 else z += wave;
                 
-                d[dot_index++] = dot_shader((vertex){x, y - 20, z});
+                d[dot_index++] = dot_shader((vertex){x + 60.0f, y - 20, z}); // Offset to the far right
             }
         }
     }
